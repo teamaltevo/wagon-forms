@@ -1,12 +1,13 @@
 import { FieldViewModel } from './fields/FieldViewModel';
 import { Observable, merge, Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { ValidatableInput } from './ValidatableInput';
 
 export abstract class FormViewModel {
 
 	private completionSubject?: Subject<boolean>;
 
-	public abstract getFields(): FieldViewModel[];
+	public abstract getInputs(): ValidatableInput[];
 
 	public get completionStream(): Observable<boolean> {
 		if (!this.completionSubject) {
@@ -17,22 +18,13 @@ export abstract class FormViewModel {
 	}
 
 	public get isComplete(): boolean {
-		return this.getFields().every(field => field.isValid);
-	}
-
-	private watchFieldsChange(): void {
-		const fieldStreams = this.getFields().map(field => field.validationStream);
-		merge(...fieldStreams).subscribe(this.onFieldValueChange.bind(this));
-	}
-
-	private onFieldValueChange(): void {
-		this.completionSubject?.next(this.isComplete);
+		return this.getInputs().every(field => field.isValid);
 	}
 
 	public validateForm(onFormValidated: (formData: any) => void): void {
 		let isValid = true;
 		const formData: any = {};
-		this.getFields().forEach(field => {
+		this.getInputs().forEach(field => {
 			formData[field.name] = field.value;
 			field.validate((result) => {
 				if (!result) {
@@ -44,5 +36,14 @@ export abstract class FormViewModel {
 		if (isValid) {
 			onFormValidated(formData);
 		}
+	}
+
+	private watchFieldsChange(): void {
+		const fieldStreams = this.getInputs().map(field => field.validationStream);
+		merge(...fieldStreams).subscribe(this.onFieldValueChange.bind(this));
+	}
+
+	private onFieldValueChange(): void {
+		this.completionSubject?.next(this.isComplete);
 	}
 }

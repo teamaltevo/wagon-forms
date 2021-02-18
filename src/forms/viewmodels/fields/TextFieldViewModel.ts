@@ -1,6 +1,7 @@
-import { FieldViewModel, ValidationCallback } from './FieldViewModel';
+import { FieldViewModel } from './FieldViewModel';
 import { FieldViewModelInitializer } from './FieldViewModelInitializer';
 import { FormErrors } from '../../errors/FormErrors';
+import { ValidationCallback } from '../ValidatableInput';
 
 export class TextFieldViewModel extends FieldViewModel {
 

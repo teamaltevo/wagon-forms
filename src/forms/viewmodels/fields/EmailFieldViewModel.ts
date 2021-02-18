@@ -1,5 +1,6 @@
 import { FormErrors } from '../../errors/FormErrors';
-import { FieldViewModel, ValidationCallback } from './FieldViewModel';
+import { ValidationCallback } from '../ValidatableInput';
+import { FieldViewModel } from './FieldViewModel';
 import { FieldViewModelInitializer } from './FieldViewModelInitializer';
 
 export class EmailFieldViewModel extends FieldViewModel {

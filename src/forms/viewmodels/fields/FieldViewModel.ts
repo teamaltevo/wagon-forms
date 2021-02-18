@@ -1,11 +1,12 @@
 import { CustomValidator, FieldViewModelInitializer } from './FieldViewModelInitializer';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { ValidationCallback, ValidatableInput } from '../ValidatableInput';
 
-export type ValidationCallback = (result: boolean, error?: string) => void;
-export abstract class FieldViewModel {
+export abstract class FieldViewModel implements ValidatableInput {
 
 	private valueSubject: BehaviorSubject<string>;
-	private validationSubject: Subject<boolean>;
+	private validationSubject: BehaviorSubject<boolean>;
 
 	public name: string;
 	public required: boolean;
@@ -18,12 +19,12 @@ export abstract class FieldViewModel {
 	public customValidator?: CustomValidator;
 
 	public get value(): string {
-		return this.valueSubject.getValue();
+		return this.valueSubject.value;
 	}
 
 	public set value(value: string) {
 		this.valueSubject.next(value);
-		this.validateWithPreferedValidator(result => {
+		this.validateWithPreferredValidator(result => {
 			if (result) { this.clearError(); }
 			this.validationSubject.next(result);
 		});
@@ -34,7 +35,15 @@ export abstract class FieldViewModel {
 	}
 
 	public get validationStream(): Observable<boolean> {
-		return this.validationSubject.asObservable();
+		return this.validationSubject.asObservable().pipe(distinctUntilChanged());
+	}
+
+	public get hasError(): boolean {
+		return !String.isNullOrEmpty(this.error);
+	}
+
+	public get isValid(): boolean {
+		return this.validationSubject.value;
 	}
 
 	constructor(init: FieldViewModelInitializer) {
@@ -46,14 +55,14 @@ export abstract class FieldViewModel {
 		this.minLength = init.minLength ?? 0;
 		this.maxLength = init.maxLength ?? Number.MAX_VALUE;
 		this.customValidator = init.customValidator;
-		this.validationSubject = new Subject<boolean>();
+		this.validationSubject = this.initializeValidationSubject();
 	}
 
 	protected abstract validateField(callback?: ValidationCallback): void;
 
 	public validate(callback?: ValidationCallback): void {
 		this.clearError();
-		this.validateWithPreferedValidator((result: boolean, error?: string) => {
+		this.validateWithPreferredValidator((result: boolean, error?: string) => {
 			if (!result) {
 				this.error = error;
 			}
@@ -69,19 +78,15 @@ export abstract class FieldViewModel {
 		this.error = undefined;
 	}
 
-	public get hasError(): boolean {
-		return String.isNullOrEmpty(this.error);
-	}
-
-	public get isValid(): boolean {
-		let validated = true;
-		this.validateWithPreferedValidator((result: boolean) => {
-			validated = result;
+	private initializeValidationSubject(): BehaviorSubject<boolean> {
+		let subject = new BehaviorSubject<boolean>(false);
+		this.validateWithPreferredValidator((result: boolean) => {
+			subject.next(result);
 		});
-		return validated;
+		return subject;
 	}
 
-	private validateWithPreferedValidator(callback?: ValidationCallback): void {
+	private validateWithPreferredValidator(callback?: ValidationCallback): void {
 		if (this.customValidator) {
 			const validation = this.customValidator(this.value);
 			callback?.(validation.result, validation.error);

@@ -11,4 +11,5 @@ export { FormViewModel } from './forms/viewmodels/FormViewModel';
 
 // Validation
 export { ValidationResult } from './forms/viewmodels/ValidationResult';
+export { ValidatableInput, ValidationCallback } from './forms/viewmodels/ValidatableInput';
 export { CustomValidator } from './forms/viewmodels/fields/FieldViewModelInitializer';
