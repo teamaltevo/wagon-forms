@@ -14,7 +14,7 @@
         "buildAndPublish": "npm run build && npm publish --access public"
     },
     "dependencies": {
-        "@writools/wagon-ext": "^1.0.0",
+        "@writools/wagon-ext": "^1.0.1",
         "rxjs": "^6.6.3"
     },
     "devDependencies": {
