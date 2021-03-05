@@ -38,6 +38,10 @@ export abstract class FormViewModel {
 		}
 	}
 
+	public clear(): void {
+		this.getInputs().forEach(input => input.clear());
+	}
+
 	private watchFieldsChange(): void {
 		const fieldStreams = this.getInputs().map(field => field.validationStream);
 		merge(...fieldStreams).subscribe(this.onFieldValueChange.bind(this));

@@ -9,4 +9,5 @@ export interface ValidatableInput {
     isValid: boolean;
     validationStream: Observable<boolean>;
     validate(callback?: ValidationCallback): void; 
+    clear(): void;
 }
