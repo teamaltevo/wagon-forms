@@ -1,7 +1,6 @@
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged } from "rxjs/operators";
 import { ValidatableInput, ValidationCallback } from "../ValidatableInput";
-import { CheckboxViewModelInitializer } from "./CheckboxViewModelInitializer";
 
 export class CheckboxViewModel implements ValidatableInput {
     private required: boolean;
@@ -78,4 +77,11 @@ export class CheckboxViewModel implements ValidatableInput {
         });
         return subject;
     }
+}
+
+export interface CheckboxViewModelInitializer {
+    name: string;
+    required: boolean;
+    label: string;
+    value?: boolean;
 }

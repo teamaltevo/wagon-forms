@@ -6,6 +6,7 @@ export { EmailFieldViewModel } from './forms/viewmodels/fields/EmailFieldViewMod
 export { PasswordFieldViewModel } from './forms/viewmodels/fields/PasswordFieldViewModel';
 export { TextFieldViewModel } from './forms/viewmodels/fields/TextFieldViewModel';
 export { MirrorFieldViewModel, MirrorFieldInitializer } from './forms/viewmodels/fields/MirrorFieldViewModel';
+export { CheckboxViewModel, CheckboxViewModelInitializer } from './forms/viewmodels/fields/CheckboxViewModel';
 
 // Forms view models
 export { FormViewModel } from './forms/viewmodels/FormViewModel';
