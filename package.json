@@ -8,7 +8,7 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
-        "test": "jest --colors",
+        "test": "",
         "prebuild": "rimraf dist",
         "clean": "rimraf dist",
         "buildAndPublish": "npm run build && npm publish --access public"
