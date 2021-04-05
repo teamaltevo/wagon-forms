@@ -13,7 +13,7 @@ export class CheckboxViewModel implements ValidatableInput {
     private validationSubject: BehaviorSubject<boolean>;
 
     public value$: Observable<boolean>;
-    public validationStream: Observable<boolean>;
+    public validation$: Observable<boolean>;
     public enabled$: Observable<boolean>;
 
     public get value(): boolean {
@@ -45,7 +45,7 @@ export class CheckboxViewModel implements ValidatableInput {
         this.label = init.label;
 
         this.enabled$ = new BehaviorSubject(true).asObservable();
-        this.validationStream = this.validationSubject.asObservable().pipe(distinctUntilChanged());
+        this.validation$ = this.validationSubject.asObservable().pipe(distinctUntilChanged());
         this.value$ = this.valueSubject.asObservable();
     }
 

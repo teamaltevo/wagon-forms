@@ -7,7 +7,7 @@ export interface ValidatableInput {
     name: string;
     hasError: boolean;
     isValid: boolean;
-    validationStream: Observable<boolean>;
+    validation$: Observable<boolean>;
     validate(callback?: ValidationCallback): void; 
     clear(): void;
 }

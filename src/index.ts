@@ -7,6 +7,7 @@ export { PasswordFieldViewModel } from './forms/viewmodels/fields/PasswordFieldV
 export { TextFieldViewModel } from './forms/viewmodels/fields/TextFieldViewModel';
 export { MirrorFieldViewModel, MirrorFieldInitializer } from './forms/viewmodels/fields/MirrorFieldViewModel';
 export { CheckboxViewModel, CheckboxViewModelInitializer } from './forms/viewmodels/fields/CheckboxViewModel';
+export { SelectViewModel, SelectViewModelInitializer } from './forms/viewmodels/fields/SelectViewModel';
 
 // Forms view models
 export { FormViewModel } from './forms/viewmodels/FormViewModel';

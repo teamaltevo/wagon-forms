@@ -30,11 +30,11 @@ export abstract class FieldViewModel implements ValidatableInput {
 		});
 	}
 
-	public get valueStream(): Observable<string> {
+	public get value$(): Observable<string> {
 		return this.valueSubject.asObservable();
 	}
 
-	public get validationStream(): Observable<boolean> {
+	public get validation$(): Observable<boolean> {
 		return this.validationSubject.asObservable().pipe(distinctUntilChanged());
 	}
 

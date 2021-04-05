@@ -1,4 +1,3 @@
-import { FieldViewModel } from './fields/FieldViewModel';
 import { Observable, merge, Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ValidatableInput } from './ValidatableInput';
@@ -9,7 +8,7 @@ export abstract class FormViewModel {
 
 	public abstract getInputs(): ValidatableInput[];
 
-	public get completionStream(): Observable<boolean> {
+	public get completion$(): Observable<boolean> {
 		if (!this.completionSubject) {
 			this.completionSubject = new Subject();
 			this.watchFieldsChange();
@@ -43,7 +42,7 @@ export abstract class FormViewModel {
 	}
 
 	private watchFieldsChange(): void {
-		const fieldStreams = this.getInputs().map(field => field.validationStream);
+		const fieldStreams = this.getInputs().map(field => field.validation$);
 		merge(...fieldStreams).subscribe(this.onFieldValueChange.bind(this));
 	}
 
