@@ -7,5 +7,6 @@ export enum FormErrors {
     NOT_A_NUMBER = 'forms.errors.notANumber',
     NOT_AN_INTEGER = "forms.errors.notAnInteger",
     MIN_VALUE_OVERFLOW = 'forms.errors.minValueOverflow',
-    MAX_VALUE_OVERFLOW = 'forms.errors.maxValueOverflow'
+    MAX_VALUE_OVERFLOW = 'forms.errors.maxValueOverflow',
+    INVALID_FORMAT = 'forms.errors.invalidFormat',
 }

@@ -1,12 +1,14 @@
-import { ValidationResult } from '../ValidationResult';
-export type CustomValidator = (value: string) => ValidationResult;
-export interface FieldViewModelInitializer {
+import { ZodFirstPartySchemaTypes } from 'zod';
+
+export type ZodSchema = ZodFirstPartySchemaTypes;
+export interface FieldViewModelInitializer<T> {
 	name: string;
 	required: boolean;
 	placeholder?: string;
+	label?: string;
+	hint?: string;
 	icon?: string;
-	value?: string;
-	minLength?: number;
-	maxLength?: number;
-	customValidator?: CustomValidator;
+	value: T;
+	readonly?: boolean;
+	disabled?: boolean;
 }

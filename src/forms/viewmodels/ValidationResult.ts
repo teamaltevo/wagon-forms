@@ -1,3 +1,4 @@
-export class ValidationResult {
-	constructor(public result: boolean, public error?: string){}
+export class ValidationResult<T> {
+	constructor(public result: boolean, public value?: T, public errors?: string[]){}
 }
+
