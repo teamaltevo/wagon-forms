@@ -48,7 +48,6 @@ describe('FormViewModel Tests', () => {
                 fail('Should not be called')
             },
             error: err => {
-                console.log(err.message)
                 expect(err).toBeInstanceOf(Error)
                 expect(err.message).toEqual('One or more fields of this form are invalid, check error.cause for details.')
                 done()

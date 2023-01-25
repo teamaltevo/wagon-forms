@@ -16,7 +16,6 @@ export abstract class FormViewModel<T extends FormDataObject> {
 
   public get isValid$(): Observable<boolean> {
     return this.validation$.pipe(
-      tap(results => console.log(results)),
       map(results => results.every(r => r.result))
     )
   }
