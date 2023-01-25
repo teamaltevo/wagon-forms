@@ -19,6 +19,8 @@ export abstract class FieldViewModel<T> implements ValidatableInput<T> {
 	public icon?: string;
 	public hasExplicitValidation = false;
 
+	private schemaFactory: () => ZodSchema;
+
 	public get value(): T {
 		return this.valueSubject.value;
 	}
@@ -28,7 +30,6 @@ export abstract class FieldViewModel<T> implements ValidatableInput<T> {
 	}
 
 	public get value$(): Observable<T> {
-		//TODO this can return a value that is not valid
 		return this.valueSubject.asObservable();
 	}
 
@@ -36,14 +37,18 @@ export abstract class FieldViewModel<T> implements ValidatableInput<T> {
 		return this.valueSubject.pipe(
 			distinctUntilChanged(),
 			map(value => {
-				const result = this.buildSchema().safeParse(value);
+				const result = this.schemaFactory().safeParse(value);
 				if (result.success) {
-					return new ValidationResult(true, result.data);
+					return new ValidationResult(this.name, true, result.data);
 				} else {
-					return new ValidationResult(false, undefined, result.error.issues.map(i => i.message));
+					return new ValidationResult(this.name, false, undefined, result.error.issues.map(i => i.message));
 				}
 			})
 		)
+	}
+
+	public onFormValidation(): void {
+		this.hasExplicitValidation = true;
 	}
 
 	public get isValid$(): Observable<boolean> {
@@ -64,6 +69,8 @@ export abstract class FieldViewModel<T> implements ValidatableInput<T> {
 		this.label = init.label;
 		this.readonly = init.readonly ?? false;
 		this.disabled = init.disabled ?? false;
+		this.schemaFactory = init.validationShema !== undefined ? 
+			() => init.validationShema! : this.buildSchema.bind(this);
 	}
 
 	public abstract clear(): void;

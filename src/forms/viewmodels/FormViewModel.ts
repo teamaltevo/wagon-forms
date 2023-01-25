@@ -1,52 +1,49 @@
-import { Observable, merge, Subject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { Observable, combineLatest, throwError } from 'rxjs';
+import { first, map, tap } from 'rxjs/operators';
+import { FormValidationError } from '../errors/FormValidationError';
 import { ValidatableInput } from './ValidatableInput';
+import { ValidationResult } from './ValidationResult';
 
-export abstract class FormViewModel {
+type FormDataObject = { [key: string]: any };
 
-	private completionSubject?: Subject<boolean>;
+export abstract class FormViewModel<T extends FormDataObject> {
 
-	public abstract getInputs(): ValidatableInput[];
+  public abstract getInputs(): ValidatableInput<unknown>[];
 
-	public get completion$(): Observable<boolean> {
-		if (!this.completionSubject) {
-			this.completionSubject = new Subject();
-			this.watchFieldsChange();
-		}
-		return this.completionSubject.pipe(distinctUntilChanged());
-	}
+  private get validation$(): Observable<ValidationResult<unknown>[]> {
+    return combineLatest(this.getInputs().map(input => input.validation$));
+  }
 
-	public get isComplete(): boolean {
-		return this.getInputs().every(field => field.isValid);
-	}
+  public get isValid$(): Observable<boolean> {
+    return this.validation$.pipe(
+      tap(results => console.log(results)),
+      map(results => results.every(r => r.result))
+    )
+  }
 
-	public validateForm(onFormValidated: (formData: any) => void): void {
-		let isValid = true;
-		const formData: any = {};
-		this.getInputs().forEach(field => {
-			formData[field.name] = field.value;
-			field.validate((result) => {
-				if (!result) {
-					isValid = false;
-				}
-			});
-		});
+  public validateForm(): Observable<T> {
+    const inputs = this.getInputs();
+    if (inputs.length === 0) {
+      throw new FormValidationError('Form does not have any inputs');
+    }
 
-		if (isValid) {
-			onFormValidated(formData);
-		}
-	}
+    inputs.forEach(input => input.onFormValidation());
+    return this.validation$.pipe(
+      first(),
+      map(results => {
+        if (results.every(r => r.result)) {
+          return results.reduce((acc, r) => ({ ...acc, [r.field]: r.value }), {}) as T;
+        } else {
+          throw new FormValidationError(
+            'One or more fields of this form are invalid, check error.cause for details.',
+            results.filter(r => !r.result).map(r => ({ field: r.field, errors: r.errors }))
+          );
+        }
+      })
+    );
+  }
 
-	public clear(): void {
-		this.getInputs().forEach(input => input.clear());
-	}
-
-	private watchFieldsChange(): void {
-		const fieldStreams = this.getInputs().map(field => field.validation$);
-		merge(...fieldStreams).subscribe(this.onFieldValueChange.bind(this));
-	}
-
-	private onFieldValueChange(): void {
-		this.completionSubject?.next(this.isComplete);
-	}
+  public clear(): void {
+    this.getInputs().forEach(input => input.clear());
+  }
 }

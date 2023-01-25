@@ -2,6 +2,7 @@ import { FieldViewModel } from './FieldViewModel';
 import { FieldViewModelInitializer, ZodSchema } from './FieldViewModelInitializer';
 import { FormErrors } from '../../errors/FormErrors';
 import { z } from 'zod';
+import memoize from 'fast-memoize';
 
 export class TextFieldViewModel extends FieldViewModel<string> {
 
@@ -21,34 +22,35 @@ export class TextFieldViewModel extends FieldViewModel<string> {
 		this.type = 'text';
 	}
 
-	//TODO how to memoize this?
 	public buildSchema(): ZodSchema {
-		let schema = z.string();
-		if (this.required) {
-			schema = schema.min(1, { message: FormErrors.REQUIRED_FIELD });
-		}
-	
-		if (this.minLength > 0) {
-			schema = schema.min(this.minLength, { message: FormErrors.MIN_LENGTH_REQUIRED });
-		}
-	
-		if (this.maxLength) {
-			if (this.maxLength < this.minLength) {
-				throw new Error('maxLength must be greater than minLength');
+		return memoize((required: boolean, minLength: number, maxLength: number, regex?: RegExp): ZodSchema => {
+			let schema = z.string();
+			if (required) {
+				schema = schema.min(1, { message: FormErrors.REQUIRED_FIELD });
 			}
-	
-			schema = schema.max(this.maxLength, { message: FormErrors.MAX_LENGTH_OVERFLOW });
-		}
-	
-		if (this.regex !== undefined) {
-			schema = schema.regex(this.regex, { message: FormErrors.INVALID_FORMAT });
-		}
-	
-		if (!this.required) {
-			return schema.optional();
-		}
-	
-		return schema;
+
+			if (minLength > 0) {
+				schema = schema.min(minLength, { message: FormErrors.MIN_LENGTH_REQUIRED });
+			}
+
+			if (maxLength) {
+				if (maxLength < minLength) {
+					throw new Error('maxLength must be greater than minLength');
+				}
+
+				schema = schema.max(maxLength, { message: FormErrors.MAX_LENGTH_OVERFLOW });
+			}
+
+			if (regex !== undefined) {
+				schema = schema.regex(regex, { message: FormErrors.INVALID_FORMAT });
+			}
+
+			if (!required) {
+				return schema.optional();
+			}
+
+			return schema;
+		})(this.required, this.minLength, this.maxLength, this.regex);
 	}
 
 	public clear(): void {
@@ -60,6 +62,5 @@ export interface TextFieldViewModelInitializer extends Omit<FieldViewModelInitia
 	regex?: RegExp;
 	minLength?: number;
 	maxLength?: number;
-	validationShema?: ZodSchema;
 	value?: string;
 }

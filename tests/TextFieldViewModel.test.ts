@@ -1,4 +1,5 @@
 import 'jest-extended';
+import { z } from 'zod';
 import { FormErrors } from '../src/forms/errors/FormErrors';
 import { TextFieldViewModel } from '../src/forms/viewmodels/fields/TextFieldViewModel';
 
@@ -105,6 +106,21 @@ describe('TextFieldViewModel Tests', () => {
         expect(viewModel.value).toEqual('Arthur')
         viewModel.value$.subscribe(value => {
             expect(value).toEqual('Arthur')
+            done()
+        })
+    })
+
+    it('supports custom validation schema', done => {
+        const viewModel = new TextFieldViewModel({
+            name: 'url',
+            required: true,
+            value: 'not an url',
+            validationShema: z.string().url()
+        });
+
+        viewModel.validation$.subscribe(validation => {
+            expect(validation.result).toBeFalse()
+            expect(validation.errors).toEqual(["Invalid url"])
             done()
         })
     })

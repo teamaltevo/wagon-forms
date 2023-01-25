@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
-
-export type ValidationCallback = (result: boolean, error?: string) => void;
+import { ValidationResult } from './ValidationResult';
 
 export interface ValidatableInput<T> {
-    value: T;
-    value$: Observable<T>
-    isValid$: Observable<boolean>;
-    errors$: Observable<string[] | undefined>;
-    clear(): void;
+  name: string;
+  value: T;
+  value$: Observable<T>
+  validation$: Observable<ValidationResult<T>>;
+  onFormValidation(): void;
+  clear(): void;
 }

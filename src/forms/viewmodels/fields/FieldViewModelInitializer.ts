@@ -11,4 +11,5 @@ export interface FieldViewModelInitializer<T> {
 	value: T;
 	readonly?: boolean;
 	disabled?: boolean;
+	validationShema?: ZodSchema;
 }
