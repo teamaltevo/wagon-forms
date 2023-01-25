@@ -1,10 +1,10 @@
-import { FieldViewModelInitializer } from './FieldViewModelInitializer';
-import { TextFieldViewModel } from './TextFieldViewModel';
+import { TextFieldViewModel, TextFieldViewModelInitializer } from './TextFieldViewModel';
 
 export class PasswordFieldViewModel extends TextFieldViewModel {
 
-	constructor(init: FieldViewModelInitializer) {
+	constructor(init: TextFieldViewModelInitializer) {
 		super(init);
 		this.type = 'password';
 	}
 }
+

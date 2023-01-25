@@ -1,41 +1,48 @@
-import { ValidationCallback } from "../ValidatableInput";
 import { FieldViewModel } from "./FieldViewModel";
 import { FormErrors } from '../../errors/FormErrors';
+import { z } from "zod";
+import { ZodSchema } from './FieldViewModelInitializer';
+import memoize from "fast-memoize";
 
-export class MirrorFieldViewModel extends FieldViewModel {
+export class MirrorFieldViewModel extends FieldViewModel<string> {
 
-	private mirroredField?: FieldViewModel;
-	private customError?: string;
+	private mirroredField: FieldViewModel<string>;
 
 	constructor(init: MirrorFieldInitializer) {
 		super({
+			...init,
 			required: true,
-			name: init.name,
-			placeholder: init.placeholder,
-			icon: init.icon ?? init.mirroredField.icon
+			value: ''
 		});
-		this.mirroredField = init.mirroredField;
-        this.customError = init.noMatchCustomError;
-		this.type = init.mirroredField.type;
+
+		this.mirroredField = init.mirrors;
+		this.type = init.mirrors.type;
 	}
 
-	protected validateField(callback?: ValidationCallback): void {
-		if (this.value !== this.mirroredField?.value) {
-			callback?.(false, this.customError ?? FormErrors.FIELDS_DOESNT_MATCH);
-		}
-		else if (String.isNullOrEmpty(this.value)) {
-			callback?.(false, FormErrors.REQUIRED_FIELD);
-		}
-		else {
-			callback?.(true);
-		}
+	public buildSchema(): ZodSchema {
+		return memoize((mirrorValue: string): ZodSchema => {
+			return z.string().min(1, {
+				message: FormErrors.REQUIRED_FIELD
+			}).refine((value: string) => {
+				return value === mirrorValue;
+			}, {
+				message: FormErrors.FIELDS_DOESNT_MATCH
+			});
+		})(this.mirroredField?.value);
+	}
+
+	public clear(): void {
+		this.value = '';
 	}
 }
 
 export interface MirrorFieldInitializer {
 	name: string;
-	mirroredField: FieldViewModel;
+	mirrors: FieldViewModel<string>;
 	icon?: string;
 	placeholder?: string;
-    noMatchCustomError?: string;
+	label?: string;
+	hint?: string;
+	readonly?: boolean;
+	disabled?: boolean;
 }
