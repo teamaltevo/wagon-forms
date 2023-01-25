@@ -26,6 +26,7 @@ export abstract class FieldViewModel<T> implements ValidatableInput<T> {
 	}
 
 	public set value(value: T) {
+		if (this.readonly) return;
 		this.valueSubject.next(value);
 	}
 

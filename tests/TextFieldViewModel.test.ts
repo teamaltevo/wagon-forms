@@ -124,4 +124,11 @@ describe('TextFieldViewModel Tests', () => {
             done()
         })
     })
+
+    it('should not change value if readonly', () => {
+        viewModel.value = "firstValue";
+        viewModel.readonly = true;
+        viewModel.value = "secondValue";
+        expect(viewModel.value).toEqual("firstValue");
+    })
 })

@@ -79,4 +79,11 @@ describe('EmailFieldViewModel should validate his value properly', () => {
             done()
         })
     })
+
+    it('should not change value if readonly', () => {
+        viewModel.value = "test1@gmail.com";
+        viewModel.readonly = true;
+        viewModel.value = "test2@gmail.com";
+        expect(viewModel.value).toEqual("test1@gmail.com");
+    })
 })
