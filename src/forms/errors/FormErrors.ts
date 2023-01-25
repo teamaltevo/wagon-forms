@@ -9,4 +9,5 @@ export enum FormErrors {
     MIN_VALUE_OVERFLOW = 'forms.errors.minValueOverflow',
     MAX_VALUE_OVERFLOW = 'forms.errors.maxValueOverflow',
     INVALID_FORMAT = 'forms.errors.invalidFormat',
+    INVALID_OPTION = 'forms.errors.invalidOption',
 }

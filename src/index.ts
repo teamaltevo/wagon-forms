@@ -1,5 +1,3 @@
-import '@writools/wagon-ext'
-
 // Fields view models
 export { FieldViewModel } from './forms/viewmodels/fields/FieldViewModel';
 export { FieldViewModelInitializer } from './forms/viewmodels/fields/FieldViewModelInitializer';
@@ -17,3 +15,5 @@ export { FormViewModel } from './forms/viewmodels/FormViewModel';
 // Validation
 export { ValidationResult } from './forms/viewmodels/ValidationResult';
 export { ValidatableInput } from './forms/viewmodels/ValidatableInput';
+export { FormErrors } from './forms/errors/FormErrors';
+export { FormValidationError } from './forms/errors/FormValidationError';

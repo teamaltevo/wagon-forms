@@ -1,40 +1,50 @@
+import memoize from 'fast-memoize';
+import { z } from 'zod';
 import { FormErrors } from '../../errors/FormErrors';
-import { ValidationCallback } from '../ValidatableInput';
 import { FieldViewModel } from './FieldViewModel';
+import { FieldViewModelInitializer, ZodSchema } from './FieldViewModelInitializer';
 
-export class SelectViewModel extends FieldViewModel {
+export class SelectViewModel extends FieldViewModel<string | undefined> {
 
     public options: SelectOption[];
 
     constructor(init: SelectViewModelInitializer) {
         super({
+            ...init,
+            value: init.value,
             required: init.required,
-            placeholder: init.placeholder,
-            name: init.name,
-            icon: init.icon,
-            value: init.value
         });
+
         this.options = init.options ?? [];
         this.type = 'select';
     }
 
-    protected validateField(callback?: ValidationCallback): void {
-        if (this.required && String.isNullOrWhiteSpace(this.value)) {
-            callback?.(false, FormErrors.REQUIRED_FIELD);
-        }
+    public clear(): void {
+        this.value = undefined;
+    }
+
+    public buildSchema(): ZodSchema {
+        return memoize((required: boolean, options: Array<string|undefined>): ZodSchema => {
+            let schema = required ?
+                z.string({ required_error: FormErrors.REQUIRED_FIELD }) : z.string().optional();
+
+            return schema.refine(
+                value => required ? options.includes(value) : value === undefined || options.includes(value),
+                { message: FormErrors.INVALID_OPTION }
+            );
+        })(this.required, this.options.map(o => o.value));
     }
 }
 
 export interface SelectOption {
-    text: string;
+    label: string;
+    subLabel?: string;
     value: string;
 }
 
-export interface SelectViewModelInitializer {
+export interface SelectViewModelInitializer extends Omit<FieldViewModelInitializer<string>, "value"> {
     name: string;
     required: boolean;
-    placeholder?: string;
     options?: SelectOption[];
-    icon?: string;
     value?: string;
 }
