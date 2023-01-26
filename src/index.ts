@@ -14,6 +14,6 @@ export { FormViewModel } from './FormViewModel';
 
 // Validation
 export { ValidationResult } from './interfaces/ValidationResult';
-export { ValidatableInput } from './interfaces/ValidatableInput';
+export { BaseViewModel as ValidatableInput } from './interfaces/BaseViewModel';
 export { FormErrors } from './errors/FormErrors';
 export { FormValidationError } from './errors/FormValidationError';

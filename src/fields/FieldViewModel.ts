@@ -1,10 +1,10 @@
 import { FieldViewModelInitializer, ZodSchema } from './FieldViewModelInitializer';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { ValidatableInput } from '../interfaces/ValidatableInput';
+import { BaseViewModel } from '../interfaces/BaseViewModel';
 import { ValidationResult } from '../interfaces/ValidationResult';
 
-export abstract class FieldViewModel<T> implements ValidatableInput<T> {
+export abstract class FieldViewModel<T> implements BaseViewModel<T> {
 
 	private valueSubject: BehaviorSubject<T>;
 

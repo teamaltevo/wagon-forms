@@ -2,26 +2,40 @@ import 'jest-extended';
 import { skip } from 'rxjs/operators';
 import { TextFieldViewModel } from '../src/fields/TextFieldViewModel';
 import { FormViewModel } from '../src/FormViewModel';
-import { ValidatableInput } from '../src/interfaces/ValidatableInput';
+import { BaseViewModel } from '../src/interfaces/BaseViewModel';
+import { EmailFieldViewModel } from '../src/fields/EmailFieldViewModel';
+import { NumericFieldViewModel } from '../src/fields/NumericFieldViewModel';
 
-class TestFormViewModel extends FormViewModel<any> {
+interface TestFormModel {
+    text: string;
+    email: string;
+    number: number;
+}
 
-    firstName = new TextFieldViewModel({
-        name: 'firstName',
+class TestFormViewModel extends FormViewModel<TestFormModel> {
+
+    textViewModel = new TextFieldViewModel({
+        name: 'text',
         required: true,
-        label: 'First name'
     })
 
-    lastName = new TextFieldViewModel({
-        name: 'lastName',
-        required: true,
-        label: 'Last name'
+    emailViewModel = new EmailFieldViewModel({
+        name: 'email',
+        required: true
     })
 
-    public getInputs(): ValidatableInput<unknown>[] {
+    numberViewModel = new NumericFieldViewModel({
+        name: 'number',
+        integer: true,
+        required: true
+    })
+
+
+    public getInputs(): BaseViewModel<unknown>[] {
         return [
-            this.firstName,
-            this.lastName
+            this.textViewModel,
+            this.emailViewModel,
+            this.numberViewModel
         ]
     }
 }
@@ -34,7 +48,9 @@ describe('FormViewModel Tests', () => {
     })
 
     it('should not be valid if one ore more field is not valid', done => {
-        viewModel.firstName.value = 'Olivier'
+        viewModel.textViewModel.value = 'Olivier'
+        viewModel.emailViewModel.value = 'not an email'
+        viewModel.numberViewModel.value = undefined
         viewModel.isValid$.subscribe(isValid => {
             expect(isValid).toBeFalse()
             done()
@@ -42,7 +58,9 @@ describe('FormViewModel Tests', () => {
     })
 
     it('should throw an error if one ore more field is not valid when using validateForm', done => {
-        viewModel.firstName.value = 'Olivier'
+        viewModel.textViewModel.value = 'Olivier'
+        viewModel.emailViewModel.value = 'not an email'
+        viewModel.numberViewModel.value = undefined
         viewModel.validateForm().subscribe({
             next: () => {
                 fail('Should not be called')
@@ -56,8 +74,9 @@ describe('FormViewModel Tests', () => {
     })
 
     it('should be valid if all fields are valid', done => {
-        viewModel.firstName.value = 'Tommy'
-        viewModel.lastName.value = 'Shelby'
+        viewModel.textViewModel.value = 'Tommy'
+        viewModel.emailViewModel.value = 'tommy@mail.com'
+        viewModel.numberViewModel.value = 42
         viewModel.isValid$.subscribe(isValid => {
             expect(isValid).toBeTrue()
             done()
@@ -65,12 +84,14 @@ describe('FormViewModel Tests', () => {
     })
 
     it('should return the form data when validated', done => {
-        viewModel.firstName.value = 'Tommy'
-        viewModel.lastName.value = 'Shelby'
+        viewModel.textViewModel.value = 'Tommy'
+        viewModel.emailViewModel.value = 'test@test.ca'
+        viewModel.numberViewModel.value = 42
         viewModel.validateForm().subscribe(data => {
             expect(data).toEqual({
-                firstName: 'Tommy',
-                lastName: 'Shelby'
+                text: 'Tommy',
+                email: 'test@test.ca',
+                number: 42
             })
             done()
         })
@@ -81,25 +102,62 @@ describe('FormViewModel Tests', () => {
         viewModel.isValid$.pipe(
             skip(1) // Skip the first value, before the first change
         ).subscribe(isValid => {
-            cpt++
-            if (cpt === 1) {
+            if (cpt <= 1) {
                 expect(isValid).toBeFalse()
             } else {
                 expect(isValid).toBeTrue()
                 expect(cpt).toEqual(2)
                 done()
             }
+            cpt++
         })
-        viewModel.firstName.value = 'Tommy'
-        viewModel.lastName.value = 'Shelby'
+        viewModel.textViewModel.value = 'Tommy'
+        viewModel.emailViewModel.value = 'tommy@mail.com'
+        viewModel.numberViewModel.value = 22
     })
 
     it('should throw an error if the form has no registered inputs', () => {
         const viewModel = new class extends FormViewModel<any> {
-            public getInputs(): ValidatableInput<unknown>[] {
+            public getInputs(): BaseViewModel<unknown>[] {
                 return []
             }
         }
         expect(viewModel.validateForm).toThrow()
     })
+
+    it('should set all field readonly when calling setReadonly(true)', () => {
+        expect(viewModel.textViewModel.readonly).toBeFalse()
+        expect(viewModel.emailViewModel.readonly).toBeFalse()
+        expect(viewModel.numberViewModel.readonly).toBeFalse()
+        viewModel.setReadonly(true)
+        expect(viewModel.textViewModel.readonly).toBeTrue()
+        expect(viewModel.emailViewModel.readonly).toBeTrue()
+        expect(viewModel.numberViewModel.readonly).toBeTrue()
+    })
+
+    it('should set all field disabled when calling setDisabled(true)', () => {
+        expect(viewModel.textViewModel.disabled).toBeFalse()
+        expect(viewModel.emailViewModel.disabled).toBeFalse()
+        expect(viewModel.numberViewModel.disabled).toBeFalse()
+        viewModel.setDisabled(true)
+        expect(viewModel.textViewModel.disabled).toBeTrue()
+        expect(viewModel.emailViewModel.disabled).toBeTrue()
+        expect(viewModel.numberViewModel.disabled).toBeTrue()
+    })
+
+    it('should be able to set fields value from a JS object', () => {
+        expect(viewModel.textViewModel.value).toBeEmpty()
+        expect(viewModel.emailViewModel.value).toBeEmpty()
+        expect(viewModel.numberViewModel.value).toBeUndefined()
+        viewModel.setValues({
+            text: 'Tommy',
+            email: 'test@test.ca',
+            number: 123,
+        })
+
+        expect(viewModel.textViewModel.value).toEqual('Tommy')
+        expect(viewModel.emailViewModel.value).toEqual('test@test.ca')
+        expect(viewModel.numberViewModel.value).toEqual(123)
+    })
+
 })

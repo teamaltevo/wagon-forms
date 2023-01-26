@@ -1,14 +1,14 @@
 import { Observable, combineLatest } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { FormValidationError } from './errors/FormValidationError';
-import { ValidatableInput } from './interfaces/ValidatableInput';
+import { BaseViewModel } from './interfaces/BaseViewModel';
 import { ValidationResult } from './interfaces/ValidationResult';
 
 type FormDataObject = { [key: string]: any };
 
 export abstract class FormViewModel<T extends FormDataObject> {
 
-  public abstract getInputs(): ValidatableInput<unknown>[];
+  public abstract getInputs(): BaseViewModel<unknown>[];
 
   private get validation$(): Observable<ValidationResult<unknown>[]> {
     return combineLatest(this.getInputs().map(input => input.validation$));
@@ -44,5 +44,21 @@ export abstract class FormViewModel<T extends FormDataObject> {
 
   public clear(): void {
     this.getInputs().forEach(input => input.clear());
+  }
+
+  public setReadonly(readOnly: boolean): void {
+    this.getInputs().forEach(input => input.readonly = readOnly);
+  }
+  
+  public setDisabled(disabled: boolean): void {
+    this.getInputs().forEach(input => input.disabled = disabled);
+  }
+
+  public setValues(values: Partial<T>): void {
+    this.getInputs().forEach(input => {
+      if (values[input.name] !== undefined) {
+        input.value = values[input.name];
+      }
+    });
   }
 }
