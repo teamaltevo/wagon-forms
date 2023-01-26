@@ -131,4 +131,12 @@ describe('TextFieldViewModel Tests', () => {
         viewModel.value = "secondValue";
         expect(viewModel.value).toEqual("firstValue");
     })
+
+    it('should throw an error if maxLenght < minLenght', () => {
+        expect(() => {
+            viewModel.maxLength = 1;
+            viewModel.minLength = 2;
+            viewModel.buildSchema();
+        }).toThrowError('maxLength must be greater than minLength')
+    })
 })

@@ -1,30 +1,19 @@
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ValidationCallback } from '../ValidatableInput';
 import { FieldViewModel } from './FieldViewModel';
 import { FormErrors } from '../../errors/FormErrors';
+import { FieldViewModelInitializer, ZodSchema } from './FieldViewModelInitializer';
+import { z } from 'zod';
+import memoize from 'fast-memoize';
 
-export class NumericFieldViewModel extends FieldViewModel {
+export class NumericFieldViewModel extends FieldViewModel<number | undefined> {
 
     public minValue: number;
     public maxValue: number;
     public integer: boolean;
 
-    public get numericValue(): number {
-        return parseFloat(this.value ?? 0);
-    }
-
-    public get numericValue$(): Observable<number> {
-        return this.value$.pipe(map(v => parseFloat(v)))
-    }
-
     constructor(init: NumericFieldViewModelInitializer) {
         super({
-            required: init.required,
-            name: init.name,
-            placeholder: init.placeholder,
-            icon: init.icon,
-            value: init.value?.toString(),
+            ...init,
+            value: init.value ?? undefined,
         });
 
         this.integer = init.integer ?? false;
@@ -33,30 +22,31 @@ export class NumericFieldViewModel extends FieldViewModel {
         this.type = 'number';
     }
 
-    protected validateField(callback?: ValidationCallback): void {
-        if (!this.required && String.isNullOrEmpty(this.value)) {
-            callback?.(true);
-        } else if (this.required && String.isNullOrWhiteSpace(this.value)) {
-            callback?.(false, FormErrors.REQUIRED_FIELD);
-        } else if (isNaN(this.numericValue)) {
-            callback?.(false, FormErrors.NOT_A_NUMBER);
-        } else if (this.integer && !Number.isInteger(this.numericValue)) {
-            callback?.(false, FormErrors.NOT_AN_INTEGER);
-        } else if (this.numericValue < this.minValue) {
-            callback?.(false, FormErrors.MIN_VALUE_OVERFLOW);
-        } else if (this.numericValue > this.maxValue) {
-            callback?.(false, FormErrors.MAX_VALUE_OVERFLOW);
-        } else {
-            callback?.(true);
-        }
+    public clear(): void {
+        this.value = undefined;
+    }
+
+    public buildSchema(): ZodSchema {
+        return memoize((required: boolean, min: number, max: number, integer: boolean): ZodSchema => {
+            let schema = z.number({required_error: FormErrors.REQUIRED_FIELD})
+            .min(min, { message: FormErrors.MIN_VALUE_OVERFLOW })
+            .max(max, { message: FormErrors.MAX_VALUE_OVERFLOW })
+
+            if (integer) {
+                schema = schema.int({ message: FormErrors.NOT_AN_INTEGER });
+            }
+
+            if (!required) {
+                return schema.optional();
+            }
+
+            return schema;
+
+        })(this.required, this.minValue, this.maxValue, this.integer);
     }
 }
 
-export interface NumericFieldViewModelInitializer {
-    name: string;
-    required: boolean;
-    placeholder?: string;
-    icon?: string;
+export interface NumericFieldViewModelInitializer extends Omit<FieldViewModelInitializer<string>, "value"> {
     value?: number;
     integer?: boolean;
     minValue?: number;
