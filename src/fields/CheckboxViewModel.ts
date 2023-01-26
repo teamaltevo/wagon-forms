@@ -29,6 +29,6 @@ export class CheckboxViewModel extends FieldViewModel<boolean> {
     }
 }
 
-export interface CheckboxViewModelInitializer extends Omit<FieldViewModelInitializer<string>, "value" | "placeholder"> {
+export interface CheckboxViewModelInitializer extends Omit<FieldViewModelInitializer<string>, "value"> {
     value?: boolean;
 }

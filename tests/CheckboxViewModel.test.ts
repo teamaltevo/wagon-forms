@@ -9,6 +9,7 @@ describe('CheckboxViewModel should validate his value properly', () => {
         viewModel = new CheckboxViewModel({
             name: 'checkbox',
             required: false,
+            placeholder: 'placeholder',
             label: 'label',
             hint: 'hint',
         })
@@ -17,7 +18,7 @@ describe('CheckboxViewModel should validate his value properly', () => {
     it('should be initialized properly', () => {
         expect(viewModel.name).toEqual('checkbox')
         expect(viewModel.required).toBeFalse()
-        expect(viewModel.placeholder).toBeUndefined()
+        expect(viewModel.placeholder).toEqual('placeholder')
         expect(viewModel.label).toEqual('label')
         expect(viewModel.hint).toEqual('hint')
         expect(viewModel.readonly).toBeFalse()
