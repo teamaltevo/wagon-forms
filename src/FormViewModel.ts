@@ -1,8 +1,8 @@
 import { Observable, combineLatest } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { FormValidationError } from '../errors/FormValidationError';
-import { ValidatableInput } from './ValidatableInput';
-import { ValidationResult } from './ValidationResult';
+import { FormValidationError } from './errors/FormValidationError';
+import { ValidatableInput } from './interfaces/ValidatableInput';
+import { ValidationResult } from './interfaces/ValidationResult';
 
 type FormDataObject = { [key: string]: any };
 

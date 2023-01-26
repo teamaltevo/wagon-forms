@@ -1,8 +1,8 @@
 import 'jest-extended';
 import { skip } from 'rxjs/operators';
-import { TextFieldViewModel } from '../src/forms/viewmodels/fields/TextFieldViewModel';
-import { FormViewModel } from '../src/forms/viewmodels/FormViewModel';
-import { ValidatableInput } from '../src/forms/viewmodels/ValidatableInput';
+import { TextFieldViewModel } from '../src/fields/TextFieldViewModel';
+import { FormViewModel } from '../src/FormViewModel';
+import { ValidatableInput } from '../src/interfaces/ValidatableInput';
 
 class TestFormViewModel extends FormViewModel<any> {
 

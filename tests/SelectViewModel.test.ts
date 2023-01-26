@@ -1,6 +1,6 @@
 import 'jest-extended';
-import { FormErrors } from '../src/forms/errors/FormErrors';
-import { SelectViewModel } from '../src/forms/viewmodels/fields/SelectViewModel';
+import { FormErrors } from '../src/errors/FormErrors';
+import { SelectViewModel } from '../src/fields/SelectViewModel';
 
 describe('SelectViewModel Tests', () => {
     

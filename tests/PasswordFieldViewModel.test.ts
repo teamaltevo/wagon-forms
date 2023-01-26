@@ -1,7 +1,7 @@
 import 'jest-extended';
 import { z } from 'zod';
-import { FormErrors } from '../src/forms/errors/FormErrors';
-import { PasswordFieldViewModel } from '../src/forms/viewmodels/fields/PasswordFieldViewModel';
+import { FormErrors } from '../src/errors/FormErrors';
+import { PasswordFieldViewModel } from '../src/fields/PasswordFieldViewModel';
 
 describe('PasswordFieldViewModel Tests', () => {
     

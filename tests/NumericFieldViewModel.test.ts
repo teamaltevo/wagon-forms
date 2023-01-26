@@ -1,6 +1,6 @@
 import 'jest-extended';
-import { FormErrors } from '../src/forms/errors/FormErrors';
-import { NumericFieldViewModel } from '../src/forms/viewmodels/fields/NumericFieldViewModel';
+import { FormErrors } from '../src/errors/FormErrors';
+import { NumericFieldViewModel } from '../src/fields/NumericFieldViewModel';
 
 describe('NumericFieldViewModel Tests', () => {
     

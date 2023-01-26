@@ -2,7 +2,7 @@ import memoize from 'fast-memoize';
 import { z } from 'zod';
 import { FieldViewModel } from './FieldViewModel';
 import { FieldViewModelInitializer, ZodSchema } from './FieldViewModelInitializer';
-import { FormErrors } from '../../errors/FormErrors';
+import { FormErrors } from '../errors/FormErrors';
 
 export class CheckboxViewModel extends FieldViewModel<boolean> {
 

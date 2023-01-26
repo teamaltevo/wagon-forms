@@ -1,6 +1,6 @@
 import 'jest-extended';
-import { FormErrors } from '../src/forms/errors/FormErrors';
-import { CheckboxViewModel } from '../src/forms/viewmodels/fields/CheckboxViewModel';
+import { FormErrors } from '../src/errors/FormErrors';
+import { CheckboxViewModel } from '../src/fields/CheckboxViewModel';
 
 describe('CheckboxViewModel should validate his value properly', () => {
 

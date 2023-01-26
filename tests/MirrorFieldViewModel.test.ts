@@ -1,7 +1,7 @@
 import 'jest-extended';
-import { FormErrors } from '../src/forms/errors/FormErrors';
-import { PasswordFieldViewModel } from '../src/forms/viewmodels/fields/PasswordFieldViewModel';
-import { MirrorFieldViewModel } from '../src/forms/viewmodels/fields/MirrorFieldViewModel';
+import { FormErrors } from '../src/errors/FormErrors';
+import { PasswordFieldViewModel } from '../src/fields/PasswordFieldViewModel';
+import { MirrorFieldViewModel } from '../src/fields/MirrorFieldViewModel';
 
 describe('PasswordFieldViewModel Tests', () => {
 

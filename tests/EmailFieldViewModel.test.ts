@@ -1,6 +1,6 @@
 import 'jest-extended';
-import { FormErrors } from '../src/forms/errors/FormErrors';
-import { EmailFieldViewModel } from '../src/forms/viewmodels/fields/EmailFieldViewModel';
+import { FormErrors } from '../src/errors/FormErrors';
+import { EmailFieldViewModel } from '../src/fields/EmailFieldViewModel';
 
 describe('EmailFieldViewModel should validate his value properly', () => {
     

@@ -1,6 +1,6 @@
 import memoize from 'fast-memoize';
 import { z } from 'zod';
-import { FormErrors } from '../../errors/FormErrors';
+import { FormErrors } from '../errors/FormErrors';
 import { FieldViewModel } from './FieldViewModel';
 import { FieldViewModelInitializer, ZodSchema } from './FieldViewModelInitializer';
 

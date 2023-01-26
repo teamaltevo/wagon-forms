@@ -1,7 +1,7 @@
 import 'jest-extended';
 import { z } from 'zod';
-import { FormErrors } from '../src/forms/errors/FormErrors';
-import { TextFieldViewModel } from '../src/forms/viewmodels/fields/TextFieldViewModel';
+import { FormErrors } from '../src/errors/FormErrors';
+import { TextFieldViewModel } from '../src/fields/TextFieldViewModel';
 
 describe('TextFieldViewModel Tests', () => {
     
