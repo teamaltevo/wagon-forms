@@ -5,6 +5,7 @@ import { FormViewModel } from '../src/forms/FormViewModel';
 import { BaseViewModel } from '../src/interfaces/BaseViewModel';
 import { EmailFieldViewModel } from '../src/fields/EmailFieldViewModel';
 import { NumericFieldViewModel } from '../src/fields/NumericFieldViewModel';
+import { HiddenFieldViewModel } from '../src/fields/HiddenFieldViewModel';
 
 interface TestFormModel {
     text: string;
@@ -30,12 +31,19 @@ class TestFormViewModel extends FormViewModel<TestFormModel> {
         required: true
     })
 
+    secretViewModel = new HiddenFieldViewModel({
+        name: 'secret',
+        value: 'my-secret-api-key',
+        required: true
+    })
+
 
     public getInputs(): BaseViewModel<unknown>[] {
         return [
             this.textViewModel,
             this.emailViewModel,
-            this.numberViewModel
+            this.numberViewModel,
+            this.secretViewModel
         ]
     }
 }
@@ -91,7 +99,8 @@ describe('FormViewModel Tests', () => {
             expect(data).toEqual({
                 text: 'Tommy',
                 email: 'test@test.ca',
-                number: 42
+                number: 42,
+                secret: 'my-secret-api-key'
             })
             done()
         })
@@ -129,26 +138,32 @@ describe('FormViewModel Tests', () => {
         expect(viewModel.textViewModel.readonly).toBeFalse()
         expect(viewModel.emailViewModel.readonly).toBeFalse()
         expect(viewModel.numberViewModel.readonly).toBeFalse()
+        expect(viewModel.secretViewModel.readonly).toBeFalse()
+
         viewModel.setReadonly(true)
         expect(viewModel.textViewModel.readonly).toBeTrue()
         expect(viewModel.emailViewModel.readonly).toBeTrue()
         expect(viewModel.numberViewModel.readonly).toBeTrue()
+        expect(viewModel.secretViewModel.readonly).toBeFalse()
     })
 
     it('should set all field disabled when calling setDisabled(true)', () => {
         expect(viewModel.textViewModel.disabled).toBeFalse()
         expect(viewModel.emailViewModel.disabled).toBeFalse()
         expect(viewModel.numberViewModel.disabled).toBeFalse()
+        expect(viewModel.secretViewModel.disabled).toBeFalse()
         viewModel.setDisabled(true)
         expect(viewModel.textViewModel.disabled).toBeTrue()
         expect(viewModel.emailViewModel.disabled).toBeTrue()
         expect(viewModel.numberViewModel.disabled).toBeTrue()
+        expect(viewModel.secretViewModel.disabled).toBeFalse()
     })
 
     it('should be able to set fields value from a JS object', () => {
         expect(viewModel.textViewModel.value).toBeEmpty()
         expect(viewModel.emailViewModel.value).toBeEmpty()
         expect(viewModel.numberViewModel.value).toBeUndefined()
+
         viewModel.setValues({
             text: 'Tommy',
             email: 'test@test.ca',

@@ -7,7 +7,8 @@ export { TextFieldViewModel, TextFieldViewModelInitializer } from './fields/Text
 export { NumericFieldViewModel, NumericFieldViewModelInitializer } from './fields/NumericFieldViewModel';
 export { MirrorFieldViewModel, MirrorFieldInitializer } from './fields/MirrorFieldViewModel';
 export { CheckboxViewModel, CheckboxViewModelInitializer } from './fields/CheckboxViewModel';
-export { SelectViewModel, SelectViewModelInitializer } from './fields/SelectViewModel';
+export { SelectViewModel, SelectViewModelInitializer, SelectOption } from './fields/SelectViewModel';
+export { HiddenFieldViewModel, HiddenFieldViewModelInitializer } from './fields/HiddenFieldViewModel';
 
 // Forms view models
 export { FormViewModel } from './forms/FormViewModel';
