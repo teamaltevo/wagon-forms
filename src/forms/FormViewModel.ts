@@ -1,10 +1,10 @@
 import { Observable, combineLatest } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { FormValidationError } from './errors/FormValidationError';
-import { BaseViewModel } from './interfaces/BaseViewModel';
-import { ValidationResult } from './interfaces/ValidationResult';
+import { FormValidationError } from '../errors/FormValidationError';
+import { BaseViewModel } from '../interfaces/BaseViewModel';
+import { ValidationResult } from '../interfaces/ValidationResult';
 
-type FormDataObject = { [key: string]: any };
+export type FormDataObject = { [key: string]: any };
 
 export abstract class FormViewModel<T extends FormDataObject> {
 

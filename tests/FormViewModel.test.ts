@@ -1,7 +1,7 @@
 import 'jest-extended';
 import { skip } from 'rxjs/operators';
 import { TextFieldViewModel } from '../src/fields/TextFieldViewModel';
-import { FormViewModel } from '../src/FormViewModel';
+import { FormViewModel } from '../src/forms/FormViewModel';
 import { BaseViewModel } from '../src/interfaces/BaseViewModel';
 import { EmailFieldViewModel } from '../src/fields/EmailFieldViewModel';
 import { NumericFieldViewModel } from '../src/fields/NumericFieldViewModel';
