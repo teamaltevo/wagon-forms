@@ -10,7 +10,8 @@ export { CheckboxViewModel, CheckboxViewModelInitializer } from './fields/Checkb
 export { SelectViewModel, SelectViewModelInitializer } from './fields/SelectViewModel';
 
 // Forms view models
-export { FormViewModel } from './FormViewModel';
+export { FormViewModel } from './forms/FormViewModel';
+export { DynamicFormViewModel } from './forms/DynamicFormViewModel';
 
 // Validation
 export { ValidationResult } from './interfaces/ValidationResult';
