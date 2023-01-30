@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { FieldViewModel } from "./FieldViewModel";
-import { FieldViewModelInitializer } from "./FieldViewModelInitializer";
-import { ZodSchema } from '../../dist/fields/FieldViewModelInitializer';
+import { FieldViewModelInitializer, ZodSchema } from "./FieldViewModelInitializer";
 import { FormErrors } from '../errors/FormErrors';
 import { map, Observable } from "rxjs";
 
