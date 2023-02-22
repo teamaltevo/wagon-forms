@@ -1,6 +1,6 @@
 {
     "name": "@writools/wagon-forms",
-    "version": "1.0.0-beta.10",
+    "version": "2.0.0",
     "description": "",
     "license": "MIT",
     "repository": "https://github.com/writools/wagon-forms.git",
@@ -8,21 +8,24 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
-        "test": "",
+        "test": "jest",
         "prebuild": "rimraf dist",
         "clean": "rimraf dist",
         "buildAndPublish": "npm run build && npm publish --access public"
     },
     "dependencies": {
-        "@writools/wagon-ext": "^1.0.1",
-        "rxjs": "^6.6.3"
+        "fast-memoize": "^2.5.2",
+        "rxjs": "^7.8.0",
+        "validator": "^13.9.0",
+        "@types/validator": "^13.7.12",
+        "zod": "^3.20.2"
     },
     "devDependencies": {
         "@types/jest": "^26.0.20",
         "jest": "^26.6.3",
         "jest-extended": "^0.11.5",
-        "rimraf": "^3.0.2",
+        "rimraf": "^4.1.2",
         "ts-jest": "^26.5.1",
-        "typescript": "^4.1.5"
+        "typescript": "^4.9.4"
     }
 }

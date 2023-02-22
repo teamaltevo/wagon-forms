@@ -1,19 +1,27 @@
-import '@writools/wagon-ext'
-
 // Fields view models
-export { FieldViewModel } from './forms/viewmodels/fields/FieldViewModel';
-export { EmailFieldViewModel } from './forms/viewmodels/fields/EmailFieldViewModel';
-export { PasswordFieldViewModel } from './forms/viewmodels/fields/PasswordFieldViewModel';
-export { TextFieldViewModel } from './forms/viewmodels/fields/TextFieldViewModel';
-export { NumericFieldViewModel, NumericFieldViewModelInitializer } from './forms/viewmodels/fields/NumericFieldViewModel';
-export { MirrorFieldViewModel, MirrorFieldInitializer } from './forms/viewmodels/fields/MirrorFieldViewModel';
-export { CheckboxViewModel, CheckboxViewModelInitializer } from './forms/viewmodels/fields/CheckboxViewModel';
-export { SelectViewModel, SelectViewModelInitializer } from './forms/viewmodels/fields/SelectViewModel';
+export { FieldViewModel } from './fields/FieldViewModel';
+export { FieldViewModelInitializer } from './fields/FieldViewModelInitializer';
+export { EmailFieldViewModel, EmailFieldViewModelInitializer } from './fields/EmailFieldViewModel';
+export { PasswordFieldViewModel } from './fields/PasswordFieldViewModel';
+export { TextFieldViewModel, TextFieldViewModelInitializer } from './fields/TextFieldViewModel';
+export { NumericFieldViewModel, NumericFieldViewModelInitializer } from './fields/NumericFieldViewModel';
+export { MirrorFieldViewModel, MirrorFieldInitializer } from './fields/MirrorFieldViewModel';
+export { CheckboxViewModel, CheckboxViewModelInitializer } from './fields/CheckboxViewModel';
+export { SelectViewModel, SelectViewModelInitializer, SelectOption } from './fields/SelectViewModel';
+export { HiddenFieldViewModel, HiddenFieldViewModelInitializer } from './fields/HiddenFieldViewModel';
+export { DateFieldViewModel, DateFieldViewModelInitializer } from './fields/DateFieldViewModel';
+export { FileInputViewModel, FileInputViewModelInitializer } from './fields/FileInputViewModel';
+export { PhoneFieldViewModel, PhoneFieldViewModelInitializer } from './fields/PhoneFieldViewModel';
 
 // Forms view models
-export { FormViewModel } from './forms/viewmodels/FormViewModel';
+export { FormViewModel } from './forms/FormViewModel';
+export { DynamicFormViewModel } from './forms/DynamicFormViewModel';
 
 // Validation
-export { ValidationResult } from './forms/viewmodels/ValidationResult';
-export { ValidatableInput, ValidationCallback } from './forms/viewmodels/ValidatableInput';
-export { CustomValidator, FieldViewModelInitializer } from './forms/viewmodels/fields/FieldViewModelInitializer';
+export { ValidationResult } from './interfaces/ValidationResult';
+export { BaseViewModel as ValidatableInput } from './interfaces/BaseViewModel';
+export { FormErrors } from './errors/FormErrors';
+export { FormValidationError } from './errors/FormValidationError';
+
+// Error message customisation
+export { ErrorMessageFactory, ErrorMessageFactoryBuilder } from './interfaces/ErrorMessageFactory';
