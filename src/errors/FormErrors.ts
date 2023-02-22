@@ -12,4 +12,5 @@ export enum FormErrors {
     INVALID_OPTION = 'errors.invalidOption',
     MIN_DATE_OVERFLOW = 'errors.minDateOverflow',
     MAX_DATE_OVERFLOW = 'errors.maxDateOverflow',
+    INVALID_PHONE_NUMBER = 'errors.invalidPhoneNumber',
 }
