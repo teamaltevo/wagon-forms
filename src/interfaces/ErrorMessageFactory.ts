@@ -5,6 +5,6 @@ import { FormErrors } from '../errors/FormErrors';
  */
 export type ErrorMessageFactory = (error: FormErrors) => string;
 
-export const ErrorMessageFactoryProvider = (record: Record<string, string>): ErrorMessageFactory => {
+export const ErrorMessageFactoryBuilder = (record: Record<string, string>): ErrorMessageFactory => {
     return (error: FormErrors) => record[error] ?? error;
 }

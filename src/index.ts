@@ -24,4 +24,4 @@ export { FormErrors } from './errors/FormErrors';
 export { FormValidationError } from './errors/FormValidationError';
 
 // Error message customisation
-export { ErrorMessageFactory, ErrorMessageFactoryProvider } from './interfaces/ErrorMessageFactory';
+export { ErrorMessageFactory, ErrorMessageFactoryBuilder } from './interfaces/ErrorMessageFactory';

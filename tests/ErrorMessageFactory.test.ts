@@ -1,13 +1,13 @@
 import 'jest-extended';
 import { FormErrors } from '../src/errors/FormErrors';
 import { TextFieldViewModel } from '../src/fields/TextFieldViewModel';
-import { ErrorMessageFactoryProvider } from '../src/interfaces/ErrorMessageFactory';
+import { ErrorMessageFactoryBuilder } from '../src/interfaces/ErrorMessageFactory';
 
 describe('TextFieldViewModel Tests', () => {
     
     let viewModel: TextFieldViewModel;
 
-    let errorMessageFactory = ErrorMessageFactoryProvider({
+    let errorMessageFactory = ErrorMessageFactoryBuilder({
         [FormErrors.REQUIRED_FIELD]: 'This field is required',
         // [FormErrors.MIN_LENGTH_REQUIRED]: 'This field must be at least n characters long',
     })
