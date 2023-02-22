@@ -22,3 +22,6 @@ export { ValidationResult } from './interfaces/ValidationResult';
 export { BaseViewModel as ValidatableInput } from './interfaces/BaseViewModel';
 export { FormErrors } from './errors/FormErrors';
 export { FormValidationError } from './errors/FormValidationError';
+
+// Error message customisation
+export { ErrorMessageFactory, ErrorMessageFactoryProvider } from './interfaces/ErrorMessageFactory';

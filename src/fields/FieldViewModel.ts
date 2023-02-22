@@ -3,6 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { BaseViewModel } from '../interfaces/BaseViewModel';
 import { ValidationResult } from '../interfaces/ValidationResult';
+import { ErrorMessageFactory } from '../interfaces/ErrorMessageFactory';
+import { FormErrors } from '../errors/FormErrors';
 
 export abstract class FieldViewModel<T> implements BaseViewModel<T> {
 
@@ -58,6 +60,10 @@ export abstract class FieldViewModel<T> implements BaseViewModel<T> {
 
 	public get errors$(): Observable<string[] | undefined> {
 		return this.validation$.pipe(map(r => r.errors ?? undefined));
+	}
+
+	public errorsForDisplay$(errorMessageFactory: ErrorMessageFactory): Observable<string[] | undefined> {
+		return this.errors$.pipe(map(errors => errors?.map(v => errorMessageFactory(v as FormErrors))));
 	}
 
 	constructor(init: FieldViewModelInitializer<T>) {
