@@ -9,7 +9,9 @@ export { MirrorFieldViewModel, MirrorFieldInitializer } from './fields/MirrorFie
 export { CheckboxViewModel, CheckboxViewModelInitializer } from './fields/CheckboxViewModel';
 export { SelectViewModel, SelectViewModelInitializer, SelectOption } from './fields/SelectViewModel';
 export { HiddenFieldViewModel, HiddenFieldViewModelInitializer } from './fields/HiddenFieldViewModel';
-export  { DateFieldViewModel, DateFieldViewModelInitializer } from './fields/DateFieldViewModel';
+export { DateFieldViewModel, DateFieldViewModelInitializer } from './fields/DateFieldViewModel';
+export { FileInputViewModel, FileInputViewModelInitializer } from './fields/FileInputViewModel';
+export { PhoneFieldViewModel, PhoneFieldViewModelInitializer } from './fields/PhoneFieldViewModel';
 
 // Forms view models
 export { FormViewModel } from './forms/FormViewModel';
