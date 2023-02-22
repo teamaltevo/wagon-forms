@@ -31,6 +31,15 @@ describe.only('FileInputViewModel Tests', () => {
         expect(viewModel.maxSizeKb).toEqual(1)
     })
 
+    it('should not accept undefined file if required', done => {
+        viewModel.value = undefined
+        viewModel.validation$.subscribe(validation => {
+            expect(validation.result).toBeFalse()
+            expect(validation.errors).toEqual([FormErrors.REQUIRED_FIELD])
+            done()
+        });
+    })
+
     it('should accept a valid file', done => {
         const file = new File(['(⌐□_□)'], 'test.jpg', { type: 'image/jpg' })
         viewModel.value = file

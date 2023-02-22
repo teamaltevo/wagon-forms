@@ -22,7 +22,7 @@ export class FileInputViewModel extends FieldViewModel<File | undefined> {
 
     public buildSchema(): ZodSchema {
         return memoize((required: boolean, maxSize: number, extensions: string[]): ZodSchema => {
-            let schema = z.instanceof(File)
+            let schema = z.instanceof(File, FormErrors.REQUIRED_FIELD)
                 .refine((file: File) => file.size <= maxSize * 1024, FormErrors.FILE_SIZE_TOO_LARGE)
                 .refine((file: File) => extensions.includes(file.name.split('.').pop() ?? ''), FormErrors.FILE_EXTENSION_NOT_ALLOWED);
             if (required) {
