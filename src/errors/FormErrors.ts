@@ -13,4 +13,6 @@ export enum FormErrors {
     MIN_DATE_OVERFLOW = 'errors.minDateOverflow',
     MAX_DATE_OVERFLOW = 'errors.maxDateOverflow',
     INVALID_PHONE_NUMBER = 'errors.invalidPhoneNumber',
+    FILE_SIZE_TOO_LARGE = 'errors.fileSizeTooLarge',
+    FILE_EXTENSION_NOT_ALLOWED = 'errors.fileExtensionNotAllowed',
 }
