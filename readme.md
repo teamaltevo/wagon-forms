@@ -4,6 +4,13 @@
 
 Wagon Forms is a ViewModel library and collection designed to speed up form building and simplify validation in reactive web applications. It is primarily designed to be used with Angular, but it can be used with any framework that supports RXJS.
 
+### Demo 
+
+The following repo provides an example of wagon-forms integration within an Angular Application
+
+https://github.com/writools/wagon-forms-demo
+
+
 ### About the v2 :sparkles:
 
 :warning: **v2 has major breaking changes from v1 beta releases.** :warning: 
