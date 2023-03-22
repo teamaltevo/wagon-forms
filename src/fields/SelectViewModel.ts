@@ -21,6 +21,7 @@ export class SelectViewModel extends FieldViewModel<string | undefined> {
 
     public clear(): void {
         this.value = undefined;
+        super.clear();
     }
 
     public buildSchema(): ZodSchema {

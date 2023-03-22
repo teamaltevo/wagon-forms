@@ -35,6 +35,7 @@ export class FileInputViewModel extends FieldViewModel<File | undefined> {
 
     public clear(): void {
         this.value = undefined;
+        super.clear();
     }
 }
 

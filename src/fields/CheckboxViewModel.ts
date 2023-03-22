@@ -17,6 +17,7 @@ export class CheckboxViewModel extends FieldViewModel<boolean> {
 
     public clear(): void {
         this.value = false;
+        super.clear();
     }
 
     public buildSchema(): ZodSchema {

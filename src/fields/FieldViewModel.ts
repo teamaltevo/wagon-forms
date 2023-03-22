@@ -80,7 +80,10 @@ export abstract class FieldViewModel<T> implements BaseViewModel<T> {
 			() => init.validationShema! : this.buildSchema.bind(this);
 	}
 
-	public abstract clear(): void;
+	public clear() {
+		this.hasExplicitValidation = false;
+	};
+	
 	public abstract buildSchema(): ZodSchema;
 
 }

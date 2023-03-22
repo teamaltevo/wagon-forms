@@ -33,6 +33,7 @@ export class MirrorFieldViewModel extends FieldViewModel<string> {
 
 	public clear(): void {
 		this.value = '';
+        super.clear();
 	}
 }
 

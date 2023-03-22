@@ -24,6 +24,7 @@ export class NumericFieldViewModel extends FieldViewModel<number | undefined> {
 
     public clear(): void {
         this.value = undefined;
+        super.clear();
     }
 
     public buildSchema(): ZodSchema {
