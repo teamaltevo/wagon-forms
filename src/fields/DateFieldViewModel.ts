@@ -23,6 +23,7 @@ export class DateFieldViewModel extends FieldViewModel<Date | undefined> {
 
     public clear(): void {
         this.value = undefined;
+        super.clear();
     }
 
     public get isoValue(): string | undefined {

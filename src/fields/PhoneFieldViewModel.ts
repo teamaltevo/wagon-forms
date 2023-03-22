@@ -38,6 +38,7 @@ export class PhoneFieldViewModel extends FieldViewModel<string> {
 
 	public clear(): void {
 		this.value = '';
+        super.clear();
 	}
 }
 
