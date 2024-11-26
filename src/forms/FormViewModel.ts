@@ -54,11 +54,27 @@ export abstract class FormViewModel<T extends FormDataObject> {
     this.getInputs().forEach(input => input.disabled = disabled);
   }
 
+  /**
+   * Set one or more values to the form inputs.
+   * Note: undefined values will be ignored by this method.
+   * @param values Partial object with the values to set.
+   */
   public setValues(values: Partial<T>): void {
     this.getInputs().forEach(input => {
       if (values[input.name] !== undefined) {
         input.value = values[input.name];
       }
+    });
+  }
+
+  /**
+   * Replace the value of the form inputs with the values of the model.
+   * Undefined values will clear the associated input.
+   * @param model
+   */
+  public setModel(model: T): void {
+    this.getInputs().forEach(input => {
+        input.value = model[input.name];
     });
   }
 }
